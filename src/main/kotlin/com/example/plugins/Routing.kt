@@ -14,6 +14,8 @@ import org.json.simple.JSONObject
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.*
 import javax.imageio.ImageIO
 
@@ -54,15 +56,20 @@ fun go() {
 
     val images = convertedObject.getAsJsonArray("images")
 
+    val path = "/SD_Dir/${UUID.randomUUID()}"
+    Files.createDirectories(Paths.get(path))
+
     for (i in 0 until images.size()) {
         val img = images.get(i)
         var data = img.toString().split(",")[0].replaceFirst("\"", "")
-        data = data.substring(0, data.length - 2)
+        data = data.substring(0, data.length - 1)
 
         val decodedImage = Base64.getDecoder().decode(data.toByteArray(StandardCharsets.UTF_8))
         val bufferedImage = ImageIO.read(ByteArrayInputStream(decodedImage))
 
-        ImageIO.write(bufferedImage, "png", File("Image_By_CodeCraft_SD.png")) //TODO save in appropriate place
+        ImageIO.write(bufferedImage, "png", File("$path/Image_By_CodeCraft_SD.png")) //TODO save in appropriate place
+
+
     }
 
     println("Done")
