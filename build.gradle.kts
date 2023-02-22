@@ -1,12 +1,13 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
-val prometeus_version : String by project
+val prometeus_version: String by project
 
 plugins {
     kotlin("jvm") version "1.8.0"
     id("io.ktor.plugin") version "2.2.2"
-                id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
+    //id("org.jetbrains.compose") version ("1.0.5")
 }
 
 group = "com.example"
@@ -43,4 +44,11 @@ dependencies {
 
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.google.code.gson:gson:2.8.8")
+
+    /*
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("androidx.compose.ui:ui-desktop:1.0.5")
+        implementation("androidx.compose.material:material:1.0.5")
+        implementation("org.jetbrains.compose.runtime:runtime:1.0.5")
+        */
 }
