@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.codecraft.ai.api.plugins
 
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*

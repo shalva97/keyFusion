@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.codecraft.ai.api.plugins
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -29,7 +29,7 @@ fun Application.configureRouting() {
     routing {
         get("/") {
             call.respondText("Hello World By CodeCraft!")
-            go()
+            //go() //Disabling temporarily
         }
         get("/api/sd") {
 
@@ -83,9 +83,6 @@ fun go() {
         val bufferedImage = ImageIO.read(ByteArrayInputStream(decodedImage))
 
         ImageIO.write(bufferedImage, "png", File("$path/Image_By_CodeCraft_SD.png")) //TODO save in appropriate place
-
-
-
     }
 
     println("Done")

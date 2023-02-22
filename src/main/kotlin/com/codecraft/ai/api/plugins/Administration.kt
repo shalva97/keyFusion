@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.codecraft.ai.api.plugins
 
 import io.ktor.server.engine.*
 import io.ktor.server.application.*

@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.codecraft.ai.api.plugins
 
 import io.micrometer.prometheus.*
 import io.ktor.server.metrics.micrometer.*

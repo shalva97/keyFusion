@@ -1,4 +1,4 @@
-package com.example.plugins
+package com.codecraft.ai.api.plugins
 
 import io.ktor.server.plugins.openapi.*
 import io.ktor.server.routing.*
