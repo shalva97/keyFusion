@@ -1,5 +1,6 @@
 package com.codecraft.ai.api.plugins
 
+import com.codecraft.ai.api.api.tmpDataClass
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.ktor.http.*
@@ -22,6 +23,7 @@ import javax.imageio.ImageIO
 import com.lordcodes.turtle.shellRun
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -31,9 +33,6 @@ fun Application.configureRouting() {
             call.respondText("Hello World By CodeCraft!")
             //go() //Disabling temporarily
         }
-        get("/api/sd") {
-
-        }
         static("img") {
             staticRootFolder = File("C:\\SD_Dir")
             files(".")
@@ -42,6 +41,11 @@ fun Application.configureRouting() {
             val cal = shellRun("date")
             println(cal)
             call.respondText(cal, ContentType.parse("text/plain"))
+        }
+        post("/generateImage") {
+            val postParams = call.receive<String>()
+            println("Received json => $postParams")
+            call.respond(tmpDataClass("Nodar", 31))
         }
     }
 }
