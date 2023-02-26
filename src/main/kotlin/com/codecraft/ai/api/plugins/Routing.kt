@@ -30,7 +30,7 @@ fun Application.configureRouting() {
             val start = System.currentTimeMillis()
             println("request received => [$start]")
             call.respondText("Hello World By CodeCraft!")
-            go(start) //Disabling temporarily
+            //go(start) //Disabling temporarily
         }
         static("img") {
             staticRootFolder = File("C:\\SD_Dir")
