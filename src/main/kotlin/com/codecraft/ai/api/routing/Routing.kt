@@ -1,8 +1,8 @@
-package com.codecraft.ai.api.plugins
+package com.codecraft.ai.api.routing
 
-import com.codecraft.ai.api.api.tmpDataClass
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.lordcodes.turtle.shellRun
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -20,12 +20,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
 import javax.imageio.ImageIO
-import com.lordcodes.turtle.shellRun
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
@@ -42,12 +36,8 @@ fun Application.configureRouting() {
             println(cal)
             call.respondText(cal, ContentType.parse("text/plain"))
         }
-        post("/generateImage") {
-            val postParams = call.receive<String>()
-            println("Received json => $postParams")
-            call.respond(tmpDataClass("Nodar", 31))
-        }
     }
+    sdAPI()
 }
 
 
@@ -86,7 +76,11 @@ fun go() {
         val decodedImage = Base64.getDecoder().decode(data.toByteArray(StandardCharsets.UTF_8))
         val bufferedImage = ImageIO.read(ByteArrayInputStream(decodedImage))
 
-        ImageIO.write(bufferedImage, "png", File("$path/Image_By_CodeCraft_SD.png")) //TODO save in appropriate place
+        ImageIO.write(
+            bufferedImage,
+            "png",
+            File("$path/Image_By_CodeCraft_SD.png")
+        ) //TODO save in appropriate place
     }
 
     println("Done")
