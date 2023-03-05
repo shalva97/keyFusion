@@ -1,12 +1,13 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
-val prometeus_version : String by project
+val prometeus_version: String by project
 
 plugins {
     kotlin("jvm") version "1.8.10"
     id("io.ktor.plugin") version "2.2.4"
-                id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+  //id("org.jetbrains.compose") version ("1.0.5")
 }
 
 group = "com.example"
@@ -40,4 +41,15 @@ dependencies {
     implementation("com.lordcodes.turtle:turtle:0.8.0")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("org.json:json:20220924") //TODO move to versions
+
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.google.code.gson:gson:2.8.8")
+
+    /*
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("androidx.compose.ui:ui-desktop:1.0.5")
+        implementation("androidx.compose.material:material:1.0.5")
+        implementation("org.jetbrains.compose.runtime:runtime:1.0.5")
+        */
 }
