@@ -23,15 +23,6 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers") }
 }
 
-tasks {
-    compileTestJava {
-        options.compilerArgs.addAll(listOf("-source", "11", "-target", "11"))
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "11"
-    }
-}
-
 dependencies {
     implementation("io.ktor:ktor-server-html-builder-jvm:$ktor_version")
     implementation("io.ktor:ktor-server-core-jvm:$ktor_version")
