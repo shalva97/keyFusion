@@ -9,11 +9,11 @@ import io.micrometer.prometheus.PrometheusMeterRegistry
 
 fun Application.configureMonitoring() {
     val appMicrometerRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
-    
-        install(MicrometerMetrics) {
-            registry = appMicrometerRegistry
-            // ...
-        }
+
+    install(MicrometerMetrics) {
+        registry = appMicrometerRegistry
+        // ...
+    }
     routing {
         get("/metrics-micrometer") {
             call.respond(appMicrometerRegistry.scrape())

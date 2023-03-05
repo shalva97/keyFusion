@@ -9,8 +9,8 @@ import kotlinx.css.*
 import kotlinx.html.*
 
 fun Application.configureTemplating() {
-    
-    
+
+
     routing {
         get("/html-dsl") {
             call.respondHtml {
@@ -35,7 +35,7 @@ fun Application.configureTemplating() {
                 }
             }
         }
-        
+
         get("/html-css-dsl") {
             call.respondHtml {
                 head {
@@ -50,7 +50,8 @@ fun Application.configureTemplating() {
         }
     }
 }
+
 suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
-   this.respondText(CSSBuilder().apply(builder).toString(), ContentType.Text.CSS)
+    this.respondText(CSSBuilder().apply(builder).toString(), ContentType.Text.CSS)
 }
 
