@@ -3,12 +3,22 @@ package com.codecraft.ai.api.routing
 import com.codecraft.ai.api.models.Text2ImageParams
 import com.lordcodes.turtle.shellRun
 import io.ktor.client.*
-import io.ktor.http.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.json.Json
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
@@ -25,15 +35,11 @@ fun Application.configureRouting() {
             println("request received => [$start]")
             call.respondText("Hello World By CodeCraft!")
             //go(start) //Disabling temporarily
+            connectToSDAndGenerateImage(Text2ImageParams(prompt = ""))
         }
         static("img") {
             staticRootFolder = File("C:\\SD_Dir")
             files(".")
-        }
-        get("/api/sd") {
-            val cal = shellRun("date")
-            println(cal)
-            call.respondText(cal, ContentType.parse("text/plain"))
         }
         post("/generateImage") {
             val postParams = call.receive<String>()
@@ -45,39 +51,22 @@ fun Application.configureRouting() {
 }
 
 
-fun go(start: Long) {
-    val uuid = UUID.randomUUID()
-    println("Started working on [$uuid] ts[${System.currentTimeMillis()}]")
-    val url = "http://127.0.0.1:7860"
-
-    val client = HttpClient(CIO)
-
-    val client = OkHttpClient().newBuilder().apply {
-        connectTimeout(Duration.ZERO)
-        readTimeout(Duration.ZERO)
-        writeTimeout(Duration.ZERO)
-    }.build()
-
-
-    val mediaType = "application/json; charset=utf-8".toMediaType()
-
-    val payload = JSONObject().apply {
-        put("prompt", "Si-Fi space battle car, black background, digital art")
-        put("steps", 20)
+suspend fun connectToSDAndGenerateImage(text2ImageParams: Text2ImageParams) {
+    val client = HttpClient(CIO){
+        install(HttpTimeout){
+            connectTimeoutMillis = HttpTimeout.INFINITE_TIMEOUT_MS
+            requestTimeoutMillis = HttpTimeout.INFINITE_TIMEOUT_MS
+            socketTimeoutMillis = HttpTimeout.INFINITE_TIMEOUT_MS
+        }
     }
 
+    val response = client.post("http://127.0.0.1:7860") {
+        contentType(ContentType.Application.Json)
+        setBody(text2ImageParams)
+    }
 
-    val request = Request.Builder()
-        .url("$url/sdapi/v1/txt2img")
-        .post(RequestBody.create(mediaType, payload.toString()))
-        .build()
+    Json.decodeFromString<Text2ImageParams>(response.body())
 
-
-    val response = client.newCall(request).execute()
-    val responseBody = response.body!!.string()
-
-
-    val convertedObject = Gson().fromJson(responseBody, JsonObject::class.java)
 
     val images = convertedObject.getAsJsonArray("images")
 
