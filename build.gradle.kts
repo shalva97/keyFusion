@@ -41,7 +41,7 @@ dependencies {
     implementation("com.lordcodes.turtle:turtle:0.8.0")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    implementation("org.json:json:20220924") //TODO move to versions
+    implementation("org.json:json:20230227") //TODO move to versions
 
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.google.code.gson:gson:2.8.8")
