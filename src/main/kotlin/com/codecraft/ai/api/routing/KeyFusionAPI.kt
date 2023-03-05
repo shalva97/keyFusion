@@ -20,13 +20,25 @@ import java.util.*
 fun Application.keyFusionAPI() {
     routing {
         get("/keyfusion/v1/text2image") {
-            startText2ImageProcess(
-                call,
-                Text2ImageRequest(
-                    steps = 25,
-                    prompt = "single submarine, aircraft carrier, digital art, science fiction, in space, on top of mars, with f35 aircraft"
-                ),
-            )
+            call.request.apply {
+
+                val promptFromUser = queryParameters["prompt"] ?: return@get call.respond(
+                    HttpStatusCode(
+                        418,
+                        "Prompt can not be empty"
+                    )
+                )
+
+                startText2ImageProcess(
+                    call,
+                    Text2ImageRequest(
+                        prompt = promptFromUser,
+                        steps = queryParameters["steps"]?.toInt() ?: 25,
+                        width = queryParameters["width"]?.toInt() ?: 512,
+                        height = queryParameters["height"]?.toInt() ?: 512,
+                    ),
+                )
+            }
         }
     }
 }
@@ -63,8 +75,6 @@ suspend fun connectToSDAndGetImage(text2ImageRequest: Text2ImageRequest): ByteAr
     }
     return null
 }
-
-
 
 
 //TODO future development
