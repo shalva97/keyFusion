@@ -1,5 +1,6 @@
 package com.codecraft.ai.api
 
+import com.codecraft.ai.api.routing.GREETINGS
 import com.codecraft.ai.api.routing.configureRouting
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -16,7 +17,7 @@ class ApplicationTest {
         }
         client.get("/").apply {
             assertEquals(HttpStatusCode.OK, status)
-            assertEquals("Hello World By CodeCraft!", bodyAsText())
+            assertEquals(GREETINGS, bodyAsText())
         }
     }
 }

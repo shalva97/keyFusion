@@ -23,9 +23,13 @@ repositories {
     maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers") }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+tasks {
+    compileTestJava {
+        options.compilerArgs.addAll(listOf("-source", "11", "-target", "11"))
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "11"
+    }
 }
 
 dependencies {
