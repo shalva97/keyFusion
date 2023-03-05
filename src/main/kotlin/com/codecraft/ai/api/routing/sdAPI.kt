@@ -1,6 +1,5 @@
 package com.codecraft.ai.api.routing
 
-import com.codecraft.ai.api.models.Text2ImgParams
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*

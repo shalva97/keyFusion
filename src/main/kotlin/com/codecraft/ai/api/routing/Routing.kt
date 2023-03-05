@@ -1,20 +1,14 @@
 package com.codecraft.ai.api.routing
 
-import com.codecraft.ai.api.models.Text2ImgParams
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import com.codecraft.ai.api.models.Text2ImageParams
 import com.lordcodes.turtle.shellRun
+import io.ktor.client.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import org.json.JSONObject
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.nio.charset.StandardCharsets
@@ -44,7 +38,7 @@ fun Application.configureRouting() {
         post("/generateImage") {
             val postParams = call.receive<String>()
             println("Received json => $postParams")
-            call.respond(Text2ImgParams("Some prompt"))
+            call.respond(Text2ImageParams(prompt = "Some prompt"))
         }
     }
     sdAPI()
@@ -55,6 +49,9 @@ fun go(start: Long) {
     val uuid = UUID.randomUUID()
     println("Started working on [$uuid] ts[${System.currentTimeMillis()}]")
     val url = "http://127.0.0.1:7860"
+
+    val client = HttpClient(CIO)
+
     val client = OkHttpClient().newBuilder().apply {
         connectTimeout(Duration.ZERO)
         readTimeout(Duration.ZERO)
