@@ -1,6 +1,6 @@
 package com.codecraft.ai.api
 
-import com.codecraft.ai.api.plugins.configureRouting
+import com.codecraft.ai.api.routing.configureRouting
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.server.testing.*
