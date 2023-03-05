@@ -1,19 +1,31 @@
 package com.codecraft.ai.api.routing
 
+import com.codecraft.ai.api.models.Text2ImageParams
+import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.sdAPI() {
     routing {
         get("/generateImage") {
-            val postParams = call.receive<String>()
-            call.request.queryParameters.forEach { s, strings ->
-                println(s)
-                println(strings)
+            call.request.apply {
+                val response = Text2ImageParams(
+                    queryParameters["prompt"] ?: return@get call.respond(
+                        HttpStatusCode(
+                            418,
+                            "I'm a tea pot"
+                        )
+                    ),
+                    queryParameters["height"]?.toInt(),
+                    queryParameters["steps"]?.toInt(),
+                    queryParameters["width"]?.toInt()
+                )
+                println(response)
+                call.respond(
+                    response
+                )
             }
-            call.respond(Text2ImgParams("Nodar"))
         }
     }
 }
