@@ -1,1 +1,1 @@
-rootProject.name = "com.example.keyfusion"
+rootProject.name = "com.codecraft.ai.api"
