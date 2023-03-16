@@ -1,4 +1,4 @@
-name: Build Ktor project
+name: Test and Build Ktor project
 
 on: [ pull_request ]
 
