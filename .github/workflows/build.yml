@@ -1,4 +1,4 @@
-name: Build Ktor project
+name: Test and Build Ktor project
 
 on: [ pull_request ]
 
@@ -8,14 +8,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/setup-java@v3
+      with:
+        java-version: 19
+        distribution: temurin
+        cache: 'gradle'
     
     - name: Set executable permissions for gradlew
       run: chmod +x ./gradlew
 
-    - name: Set up JDK 19
-      uses: actions/setup-java@v3
-      with:
-        java-version: 19
+    - name: Test project
+      run: ./gradlew test
 
-    - name: Build with Gradle
+    - name: Build project
       run: ./gradlew build
