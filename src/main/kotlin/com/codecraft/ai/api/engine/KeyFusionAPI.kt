@@ -27,10 +27,12 @@ suspend fun startText2ImageProcess(call: ApplicationCall) {
             )
         }
 
+        var steps = queryParameters[QueryParam.STEPS.value]?.toInt() ?: 25
+        steps = steps.coerceAtMost(25)
         connectToSDAndGetImage(
             Text2ImageRequest(
                 prompt = promptFromUser,
-                steps = queryParameters[QueryParam.STEPS.value]?.toInt() ?: 25,
+                steps = steps,
                 width = queryParameters[QueryParam.WIDTH.value]?.toInt() ?: 512,
                 height = queryParameters[QueryParam.HEIGHT.value]?.toInt() ?: 512,
             ),
