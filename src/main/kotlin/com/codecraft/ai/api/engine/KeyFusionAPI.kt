@@ -18,7 +18,7 @@ import java.util.*
 
 suspend fun startText2ImageProcess(call: ApplicationCall) {
     call.request.apply {
-        val promptFromUser = queryParameters[QueryParam.PROMPT.strRepresentation] ?: return Error.EMPTY_PROMPT.let {
+        val promptFromUser = queryParameters[QueryParam.PROMPT.value] ?: return Error.EMPTY_PROMPT.let {
             call.respond(
                 HttpStatusCode(
                     it.code,
@@ -30,12 +30,19 @@ suspend fun startText2ImageProcess(call: ApplicationCall) {
         connectToSDAndGetImage(
             Text2ImageRequest(
                 prompt = promptFromUser,
-                steps = queryParameters[QueryParam.STEPS.strRepresentation]?.toInt() ?: 25,
-                width = queryParameters[QueryParam.WIDTH.strRepresentation]?.toInt() ?: 512,
-                height = queryParameters[QueryParam.HEIGHT.strRepresentation]?.toInt() ?: 512,
+                steps = queryParameters[QueryParam.STEPS.value]?.toInt() ?: 25,
+                width = queryParameters[QueryParam.WIDTH.value]?.toInt() ?: 512,
+                height = queryParameters[QueryParam.HEIGHT.value]?.toInt() ?: 512,
             ),
         )?.let {
             call.respond(it)
+        } ?: Error.SD_PROBLEM.let {
+            call.respond(
+                HttpStatusCode(
+                    it.code,
+                    it.strRepresentation
+                )
+            )
         }
     }
 }

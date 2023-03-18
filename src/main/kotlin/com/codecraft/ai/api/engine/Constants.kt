@@ -4,7 +4,7 @@ const val GREETINGS = "This Is Key fusion API (Host of Stable Diffusion!) V=1.0.
 
 const val StableDiffusionLocalhost = "http://127.0.0.1:7860/sdapi/v1/txt2img"
 
-enum class QueryParam(val strRepresentation: String) {
+enum class QueryParam(val value: String) {
     PROMPT("prompt"),
     STEPS("steps"),
     WIDTH("width"),
@@ -12,5 +12,6 @@ enum class QueryParam(val strRepresentation: String) {
 }
 
 enum class Error(val code: Int, val strRepresentation: String) {
-    EMPTY_PROMPT(418, "Prompt can not be empty")
+    EMPTY_PROMPT(418, "Prompt can not be empty"),
+    SD_PROBLEM(500, "Problem with Stable Diffusion, Couldn't generate image")
 }
