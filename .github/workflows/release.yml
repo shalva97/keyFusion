@@ -14,16 +14,9 @@ jobs:
         java-version: 19
         distribution: temurin
         cache: 'gradle'
-    
-    - name: Set executable permissions for gradlew
-      run: chmod +x ./gradlew
-
-    - name: Test project
-      run: ./gradlew test
-
-    - name: Build project
-      run: ./gradlew build
-
+    - uses: gradle/gradle-build-action@v2
+      with:
+        arguments: test build
     - name: 'Upload artifacts'
       uses: actions/upload-artifact@v3
       with:
