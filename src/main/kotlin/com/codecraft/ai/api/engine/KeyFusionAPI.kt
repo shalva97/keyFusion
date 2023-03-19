@@ -29,27 +29,30 @@ suspend fun startText2ImageProcess(call: ApplicationCall) {
 
         var steps = queryParameters[QueryParam.STEPS.value]?.toInt() ?: 25
         steps = steps.coerceAtMost(25)
-        connectToSDAndGetImage(
-            Text2ImageRequest(
-                prompt = promptFromUser,
-                steps = steps,
-                width = queryParameters[QueryParam.WIDTH.value]?.toInt() ?: 512,
-                height = queryParameters[QueryParam.HEIGHT.value]?.toInt() ?: 512,
-            ),
-        )?.let {
-            call.respond(it)
-        } ?: Error.SD_PROBLEM.let {
+
+        try {
             call.respond(
-                HttpStatusCode(
-                    it.code,
-                    it.strRepresentation
+                connectToSDAndGetImage(
+                    Text2ImageRequest(
+                        prompt = promptFromUser,
+                        steps = steps,
+                        width = queryParameters[QueryParam.WIDTH.value]?.toInt() ?: 512,
+                        height = queryParameters[QueryParam.HEIGHT.value]?.toInt() ?: 512,
+                    ),
                 )
             )
+        } catch (e: Exception) {
+            Error.SD_PROBLEM.let {
+                call.respond(
+                    HttpStatusCode(it.code, it.strRepresentation)
+                )
+            }
         }
+
     }
 }
 
-suspend fun connectToSDAndGetImage(text2ImageRequest: Text2ImageRequest): ByteArray? {
+suspend fun connectToSDAndGetImage(text2ImageRequest: Text2ImageRequest): ByteArray {
     val client = HttpClient(CIO) {
         install(HttpTimeout) {
             connectTimeoutMillis = HttpTimeout.INFINITE_TIMEOUT_MS
@@ -72,6 +75,5 @@ suspend fun connectToSDAndGetImage(text2ImageRequest: Text2ImageRequest): ByteAr
 
     response.images.firstOrNull()?.let {
         return Base64.getDecoder().decode(it.toByteArray(StandardCharsets.UTF_8))
-    }
-    return null
+    } ?: throw Exception("Problem with Stable Diffusion Server")
 }

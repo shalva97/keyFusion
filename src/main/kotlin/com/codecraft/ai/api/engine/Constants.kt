@@ -13,5 +13,5 @@ enum class QueryParam(val value: String) {
 
 enum class Error(val code: Int, val strRepresentation: String) {
     EMPTY_PROMPT(418, "Prompt can not be empty"),
-    SD_PROBLEM(500, "Problem with Stable Diffusion, Couldn't generate image")
+    SD_PROBLEM(500, "Problem with KeyFusion Server, Couldn't generate image")
 }
