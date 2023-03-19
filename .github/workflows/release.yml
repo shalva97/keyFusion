@@ -22,4 +22,4 @@ jobs:
       with:
         name: artifacts
         path: |
-          ./keyFusion/build/libs/com.codecraft.ai.api-all.jar
+          ./build/libs/com.codecraft.ai.api-all.jar
