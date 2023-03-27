@@ -46,4 +46,6 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
 
+    implementation("io.ktor:ktor-network-tls-certificates:$ktor_version") //TODO no need remove for future
+    implementation("io.ktor:ktor-network-tls-certificates:$ktor_version")
 }
