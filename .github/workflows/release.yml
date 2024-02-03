@@ -14,7 +14,7 @@ jobs:
         java-version: 19
         distribution: temurin
         cache: 'gradle'
-    - uses: gradle/gradle-build-action@v2
+    - uses: gradle/gradle-build-action@v3
       with:
         arguments: test build
     - name: 'Upload artifacts'
